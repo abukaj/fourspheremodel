@@ -17,7 +17,7 @@ parser.add_argument('--sri98-no-bn1',
                     const='Sri98_no_bn1',
                     default='Sri98',
                     dest='sri98',
-                    help='a path to the result directory')
+                    help='use Analytical_Sri98_no_bn1*.npz files')
 
 args = parser.parse_args()
 

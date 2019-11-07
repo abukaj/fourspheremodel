@@ -4,6 +4,7 @@ from scipy.special import lpmv
 import parameters as params
 
 import argparse
+import warnings
 
 
 def V(n):
@@ -103,8 +104,10 @@ def adjust_phi_angle(p):
     rxy = ele_pos - proj_rxyz_rz
     x = np.cross(p, dp_loc)
     cos_phi = np.dot(rxy, x.T) / np.dot(np.linalg.norm(rxy, axis=1).reshape(len(rxy),1), np.linalg.norm(x, axis=1).reshape(1, len(x)))
+    if abs(cos_phi).max() - 1 > 1e-10:
+        warnings.warn("cos_phi out of [-1 - 1e-10, 1 + 1e-10]", RuntimeWarning)
     cos_phi = np.nan_to_num(cos_phi)
-    phi_temp = np.arccos(cos_phi)
+    phi_temp = np.arccos(np.maximum(-1, np.minimum(1, cos_phi)))
     phi = phi_temp
     range_test = np.dot(rxy, p.T)
     for i in range(len(r_ele)):

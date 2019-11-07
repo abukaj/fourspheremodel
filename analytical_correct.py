@@ -187,6 +187,12 @@ r43 = 1. / r34
 I = 1.
 n = np.arange(1, 100)
 
+# test for NaN bug
+src_pos = [-3.850000e+00, 6.668396e+00, 0.05]
+snk_pos = [-3.850000e+00, 6.668396e+00, -0.05]
+s12, s23, s34 = conductivity(params.sigma_skull20)
+assert not np.isnan(compute_phi(s12, s23, s34, I)).any()
+
 for dipole in params.dipole_list:
     print('Now computing for dipole: ', dipole['name'])
     src_pos = dipole['src_pos']
